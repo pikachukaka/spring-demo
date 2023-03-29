@@ -5,6 +5,7 @@ import beans.PropertyValues;
 import beans.factory.config.BeanDefinition;
 import beans.factory.config.BeanReference;
 import beans.factory.support.DefaultListableBeanFactory;
+import beans.factory.support.XmlBeanDefinitionReader;
 import org.junit.jupiter.api.Test;
 
 
@@ -27,5 +28,22 @@ public class ApiTest {
         //获取bean
         UserService userService=(UserService) beanFactory.getBean("userService");
         userService.queryInfo();
+    }
+
+    @Test
+    public void test_xml() {
+        // 1.初始化 BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // 2. 读取配置文件&注册Bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
+        //UserDao userDao = (UserDao)beanFactory.getBean("userDao");
+        //System.out.println(userDao.queryUserName("1"));
+        // 3. 获取Bean对象调用方法
+        UserService userService = (UserService)beanFactory.getBean("userService");//, UserService.class
+        String result = userService.queryInfo();
+
+        System.out.println("测试结果：" + result);
     }
 }

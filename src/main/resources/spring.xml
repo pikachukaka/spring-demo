@@ -1,0 +1,10 @@
+<beans>
+
+    <bean id="userDao" class="ioc.UserDao"/>
+
+    <bean id="userService" class="ioc.UserService">
+        <property name="id" value="1"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+</beans>
