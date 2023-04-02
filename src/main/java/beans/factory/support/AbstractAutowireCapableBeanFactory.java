@@ -3,8 +3,7 @@ package beans.factory.support;
 import beans.BeansException;
 import beans.PropertyValue;
 import beans.PropertyValues;
-import beans.factory.DisposableBean;
-import beans.factory.InitializingBean;
+import beans.factory.*;
 import beans.factory.config.AutowireCapableBeanFactory;
 import beans.factory.config.BeanDefinition;
 import beans.factory.config.BeanPostProcessor;
@@ -79,6 +78,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware){
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
         // 1. 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
