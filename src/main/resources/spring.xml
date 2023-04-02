@@ -1,6 +1,6 @@
 <beans>
 
-    <bean id="userDao" class="bean.UserDao"/>
+    <bean id="userDao" class="bean.UserDao" init-method="initDataMethod" destroy-method="destroyDataMethod"/>
 
     <bean id="userService" class="bean.UserService">
         <property name="id" value="1"/>
@@ -9,6 +9,6 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <bean class="common.MyBeanPostProcessor"/>
-    <bean class="common.MyBeanFactoryPostProcessor"/>
+<!--    <bean class="common.MyBeanPostProcessor"/>-->
+<!--    <bean class="common.MyBeanFactoryPostProcessor"/>-->
 </beans>
