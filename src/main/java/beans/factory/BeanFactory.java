@@ -7,4 +7,5 @@ public interface BeanFactory {
     //含入参信息，方便传递入参给构造函数实例化
     Object getBean(String name,Object... args) throws BeansException;
     <T> T getBean(String name, Class<T> requiredType) throws BeansException;
+    //boolean containsBean(String name);
 }

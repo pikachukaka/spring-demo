@@ -52,6 +52,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         loadBeanDefinitions(resource);
     }
 
+    @Override
+    public void loadBeanDefinitions(String... locations) throws BeansException {
+        for (String location : locations) {
+            loadBeanDefinitions(location);
+        }
+    }
+
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException {
         Document doc = XmlUtil.readXML(inputStream);
         Element root = doc.getDocumentElement();
@@ -92,8 +99,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 Object value = StrUtil.isNotEmpty(attrRef) ? new BeanReference(attrRef) : attrValue;
                 // 创建属性信息
                 PropertyValue propertyValue = new PropertyValue(attrName, value);
-                System.out.println(propertyValue.getName());
-                System.out.println(propertyValue.getValue());
+
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
             if (getRegistry().containsBeanDefinition(beanName)) {

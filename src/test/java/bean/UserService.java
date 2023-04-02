@@ -1,8 +1,26 @@
-package ioc;
+package bean;
 
 public class UserService {
     private String id;
     private UserDao userDao;
+    private String company;
+    private String location;
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public UserService() {
     }
@@ -29,6 +47,6 @@ public class UserService {
     }
 
     public String queryInfo(){
-        return userDao.queryUserName(id);
+        return userDao.queryUserName(id)+", "+company+", "+location;
     }
 }

@@ -1,4 +1,4 @@
-package ioc;
+package bean;
 
 import beans.factory.config.BeanDefinition;
 import beans.factory.support.DefaultListableBeanFactory;

@@ -1,4 +1,4 @@
-package ioc;
+package bean;
 
 public class HelloService {
     private String name;
