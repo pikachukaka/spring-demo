@@ -7,7 +7,7 @@ import context.ApplicationContextAware;
 
 public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
     private String id;
-    private UserDao userDao;
+    private IUserDao userDao;
     private String company;
     private String location;
     private BeanFactory beanFactory;
@@ -32,7 +32,7 @@ public class UserService implements BeanNameAware, BeanClassLoaderAware, Applica
     public UserService() {
     }
 
-    public UserService(String id, UserDao userDao) {
+    public UserService(String id, IUserDao userDao) {
         this.id = id;
         this.userDao = userDao;
     }
@@ -45,11 +45,11 @@ public class UserService implements BeanNameAware, BeanClassLoaderAware, Applica
         this.id = id;
     }
 
-    public UserDao getUserDao() {
+    public IUserDao getUserDao() {
         return userDao;
     }
 
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(IUserDao userDao) {
         this.userDao = userDao;
     }
 

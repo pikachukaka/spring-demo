@@ -1,14 +1,15 @@
 <beans>
 
-    <bean id="userDao" class="bean.UserDao" init-method="initDataMethod" destroy-method="destroyDataMethod"/>
+<!--    <bean id="userDao" class="bean.UserDao" scope="prototype" />-->
+<!--    init-method="initDataMethod" destroy-method="destroyDataMethod"-->
 
-    <bean id="userService" class="bean.UserService">
+    <bean id="userService" class="bean.UserService" scope="prototype" >
         <property name="id" value="1"/>
         <property name="company" value="com"/>
         <property name="location" value="深圳"/>
-        <property name="userDao" ref="userDao"/>
+        <property name="userDao" ref="proxyUserDao"/>
     </bean>
-
+    <bean id="proxyUserDao" class="bean.ProxyBeanFactory"/>
 <!--    <bean class="common.MyBeanPostProcessor"/>-->
 <!--    <bean class="common.MyBeanFactoryPostProcessor"/>-->
 </beans>
