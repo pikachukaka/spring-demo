@@ -3,6 +3,17 @@ package aop;
 import org.aopalliance.intercept.MethodInterceptor;
 
 public class AdvisedSupport {
+    // ProxyConfig
+    private boolean proxyTargetClass = false;
+
+    public boolean isProxyTargetClass() {
+        return proxyTargetClass;
+    }
+
+    public void setProxyTargetClass(boolean proxyTargetClass) {
+        this.proxyTargetClass = proxyTargetClass;
+    }
+
     // 被代理的目标对象
     private TargetSource targetSource;
     // 方法拦截器
