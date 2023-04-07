@@ -1,5 +1,12 @@
+import aop.AdvisedSupport;
+import aop.TargetSource;
+import aop.aspectj.AspectJExpressionPointcut;
+import aop.framework.Cglib2AopProxy;
+import aop.framework.JdkDynamicAopProxy;
+import bean.IUserService;
 import bean.UserDao;
 import bean.UserService;
+import bean.UserServiceInterceptor;
 import beans.PropertyValue;
 import beans.PropertyValues;
 import beans.factory.config.BeanDefinition;
@@ -107,8 +114,8 @@ public class ApiTest {
         UserService userService = applicationContext.getBean("userService", UserService.class);
         String result = userService.queryInfo();
         System.out.println("测试结果：" + result);
-        System.out.println("ApplicationContextAware："+userService.getApplicationContext());
-        System.out.println("BeanFactoryAware："+userService.getBeanFactory());
+        //System.out.println("ApplicationContextAware："+userService.getApplicationContext());
+        //System.out.println("BeanFactoryAware："+userService.getBeanFactory());
     }
     @Test
     public void test_prototype() {
@@ -158,5 +165,18 @@ public class ApiTest {
         applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
 
         applicationContext.registerShutdownHook();
+    }
+
+    @Test
+    public void test_dynamic(){
+        IUserService target = new UserService();
+        AdvisedSupport support =  new AdvisedSupport();
+        support.setTargetSource(new TargetSource(target));
+        support.setMethodInterceptor(new UserServiceInterceptor());
+        support.setMethodMatcher(new AspectJExpressionPointcut("execution(* bean.IUserService.*(..))"));
+        IUserService JdkProxy = (IUserService) new JdkDynamicAopProxy(support).getProxy();
+        JdkProxy.queryInfo();
+        IUserService CglibProxy = (IUserService) new Cglib2AopProxy(support).getProxy();
+        CglibProxy.queryInfo();
     }
 }

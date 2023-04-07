@@ -5,92 +5,27 @@ import beans.factory.*;
 import context.ApplicationContext;
 import context.ApplicationContextAware;
 
-public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
-    private String id;
-    private IUserDao userDao;
-    private String company;
-    private String location;
-    private BeanFactory beanFactory;
-    private ApplicationContext applicationContext;
+import java.util.Random;
 
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public UserService() {
-    }
-
-    public UserService(String id, IUserDao userDao) {
-        this.id = id;
-        this.userDao = userDao;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public IUserDao getUserDao() {
-        return userDao;
-    }
-
-    public void setUserDao(IUserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    public String queryInfo(){
-        return userDao.queryUserName(id)+", "+company+", "+location;
-    }
-
-//    @Override
-//    public void destroy() throws Exception {
-//        System.out.println("执行：UserService.destroy");
-//    }
-//
-//    @Override
-//    public void afterPropertiesSet() throws Exception {
-//        System.out.println("执行：UserService.afterPropertiesSet");
-//    }
+public class UserService implements IUserService {
 
     @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory=beanFactory;
+    public String queryInfo() {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "echo";
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-    @Override
-    public void setBeanName(String name) {
-        System.out.println("Bean Name is：" + name);
-    }
-
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        System.out.println("ClassLoader：" + classLoader);
-    }
-
-    public BeanFactory getBeanFactory() {
-        return beanFactory;
-    }
-
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
+    public String register(String userName) {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "register...";
     }
 }
