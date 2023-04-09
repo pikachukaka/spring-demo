@@ -3,10 +3,10 @@ import aop.TargetSource;
 import aop.aspectj.AspectJExpressionPointcut;
 import aop.framework.Cglib2AopProxy;
 import aop.framework.JdkDynamicAopProxy;
-import bean.IUserService;
-import bean.UserDao;
-import bean.UserService;
-import bean.UserServiceInterceptor;
+import cn.echo.springframework.test.bean.IUserService;
+import cn.echo.springframework.test.bean.UserDao;
+import cn.echo.springframework.test.bean.UserService;
+import cn.echo.springframework.test.bean.UserServiceInterceptor;
 import beans.PropertyValue;
 import beans.PropertyValues;
 import beans.factory.config.BeanDefinition;
@@ -173,7 +173,7 @@ public class ApiTest {
         AdvisedSupport support =  new AdvisedSupport();
         support.setTargetSource(new TargetSource(target));
         support.setMethodInterceptor(new UserServiceInterceptor());
-        support.setMethodMatcher(new AspectJExpressionPointcut("execution(* bean.IUserService.*(..))"));
+        support.setMethodMatcher(new AspectJExpressionPointcut("execution(* IUserService.*(..))"));
         IUserService JdkProxy = (IUserService) new JdkDynamicAopProxy(support).getProxy();
         JdkProxy.queryInfo();
         IUserService CglibProxy = (IUserService) new Cglib2AopProxy(support).getProxy();
@@ -181,8 +181,19 @@ public class ApiTest {
     }
 
     @Test
-    public void test_aop() {
+    public void test_autowired() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        //UserDao userDao = applicationContext.getBean("userDao", UserDao.class);
+        //System.out.println("测试结果：" + userDao.queryUserName("111"));
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryInfo());
+    }
+
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+
+
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
         System.out.println("测试结果：" + userService.queryInfo());
     }

@@ -5,11 +5,14 @@ import beans.factory.BeanFactory;
 import beans.factory.ConfigurableListableBeanFactory;
 import beans.factory.config.BeanDefinition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {
-    private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+    private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
@@ -44,10 +47,29 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         if (beanDefinition == null) throw new BeansException("No bean named '" + beanName + "' is defined");
         return beanDefinition;
     }
+
     @Override
     public void preInstantiateSingletons() throws BeansException {
         beanDefinitionMap.keySet().forEach(this::getBean);
     }
+
+    @Override
+    public <T> T getBean(Class<T> requiredType) throws BeansException {
+        List<String> beanNames = new ArrayList<>();
+        for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
+            Class beanClass = entry.getValue().getBeanClass();
+            if (requiredType.isAssignableFrom(beanClass)) {
+                beanNames.add(entry.getKey());
+            }
+        }
+        if (1 == beanNames.size()) {
+            return getBean(beanNames.get(0), requiredType);
+        }
+
+        throw new BeansException(requiredType + "expected single bean but found " + beanNames.size() + ": " + beanNames);
+    }
+
+
 
 
 }

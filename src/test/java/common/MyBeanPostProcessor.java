@@ -1,6 +1,6 @@
 package common;
 
-import bean.UserService;
+import cn.echo.springframework.test.bean.UserService;
 import beans.BeansException;
 import beans.factory.config.BeanPostProcessor;
 

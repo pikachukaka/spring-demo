@@ -1,4 +1,4 @@
-package bean;
+package cn.echo.springframework.test.bean;
 
 public class HelloService {
     private String name;
